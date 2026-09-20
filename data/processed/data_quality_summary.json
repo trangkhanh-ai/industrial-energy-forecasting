@@ -1,0 +1,46 @@
+{
+  "source_file": "data\\raw\\energydata_complete.csv",
+  "raw_rows": 19735,
+  "raw_columns": 29,
+  "frequency_minutes": 10,
+  "horizon_steps": 6,
+  "horizon_minutes": 60,
+  "missing_cells_raw": 0,
+  "duplicate_rows_raw": 0,
+  "duplicate_timestamps_raw": 0,
+  "unexpected_intervals_raw": 0,
+  "dropped_columns": [
+    "rv1",
+    "rv2"
+  ],
+  "dropped_rows_without_future_label": 6,
+  "target_column": "target_Appliances_t_plus_60m",
+  "split_rows": {
+    "train": 13810,
+    "validation": 1973,
+    "test": 3946
+  },
+  "split_boundaries": [
+    {
+      "split": "train",
+      "rows": 13810,
+      "start_observation": "2016-01-11 17:00:00",
+      "end_observation": "2016-04-16 14:30:00",
+      "ratio": 0.6999847939581327
+    },
+    {
+      "split": "validation",
+      "rows": 1973,
+      "start_observation": "2016-04-16 14:40:00",
+      "end_observation": "2016-04-30 07:20:00",
+      "ratio": 0.10000506868062244
+    },
+    {
+      "split": "test",
+      "rows": 3946,
+      "start_observation": "2016-04-30 07:30:00",
+      "end_observation": "2016-05-27 17:00:00",
+      "ratio": 0.20001013736124487
+    }
+  ]
+}
