@@ -1,5 +1,16 @@
-<div id="lights-state-comparison" aria-live="polite">
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>So sánh trạng thái đèn và điện năng</title>
+</head>
+<body>
+<main id="lights-state-comparison">
   <h2>So sánh khi lights = 0 và lights &gt; 0</h2>
+  <p>Thống kê mô tả trên 19.729 dòng có nhãn trong CSV full (gồm cả gap). Chênh lệch là nhóm lights &gt; 0 trừ nhóm lights = 0; không thể suy ra quan hệ nhân quả.</p>
+  <p id="chart-status" role="status"></p>
+  <noscript>Bật JavaScript để xem biểu đồ.</noscript>
   <div class="lights-viz-grid">
     <section aria-labelledby="appliance-title">
       <h3 id="appliance-title">Appliances_lag_0 - trung bình (Wh)</h3>
@@ -10,8 +21,11 @@
       <svg class="lights-chart" id="effect-chart" role="img" aria-label="Cỡ ảnh hưởng chuẩn hóa của trạng thái lights lên Appliances_lag_0 và nhiệt độ T1 đến T9"></svg>
     </section>
   </div>
-</div>
+</main>
 <style>
+  :root { --foreground: #182533; --muted-foreground: #536274; --border: #cbd5e1; --viz-series-1: #176b87; --viz-series-2: #c65d07; }
+  body { margin: 0 auto; padding: 24px; max-width: 1200px; font-family: system-ui, sans-serif; background: #fff; }
+  p { line-height: 1.6; }
   #lights-state-comparison { color: var(--foreground); }
   #lights-state-comparison h2, #lights-state-comparison h3 { margin: 0 0 0.5rem; font-weight: 500; }
   #lights-state-comparison h3 { color: var(--muted-foreground); }
@@ -27,6 +41,10 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script>
 (() => {
+  if (typeof d3 === 'undefined') {
+    document.getElementById('chart-status').textContent = 'Không tải được D3. Kiểm tra kết nối mạng và tải lại trang.';
+    return;
+  }
   const appliance = [
     { group: "lights = 0", value: 86.58, n: 15249, color: "var(--viz-series-1)" },
     { group: "lights > 0", value: 135.33, n: 4480, color: "var(--viz-series-2)" }
@@ -40,7 +58,7 @@
     { feature: "T5", d: -0.213, diff: -0.39 },
     { feature: "T6", d: -0.206, diff: -1.25 },
     { feature: "T7", d: -0.335, diff: -0.70 },
-    { feature: "T8", d: -0.184, diff: -0.36 },
+    { feature: "T8", d: -0.183, diff: -0.36 },
     { feature: "T9", d: -0.408, diff: -0.81 }
   ];
   const color = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -75,8 +93,16 @@
     svg.selectAll('circle.effect').data(effects).join('circle').attr('cx',d=>x(d.d)).attr('cy',d=>y(d.feature)+y.bandwidth()/2).attr('r',5).attr('fill',d=>d.feature==='Appliances_lag_0'?color('--viz-series-2'):color('--viz-series-1')).attr('data-tooltip', d => `${d.feature}: d = ${d.d.toFixed(3)}; chênh lệch trung bình = ${d.diff > 0 ? '+' : ''}${d.diff.toFixed(2)} ${d.feature === 'Appliances_lag_0' ? 'Wh' : '°C'}`);
     svg.append('text').attr('class','axis-title').attr('x',(margin.left+width-margin.right)/2).attr('y',height-10).attr('text-anchor','middle').text("Cohen's d (dương: lights > 0 cao hơn)");
   }
-  const redraw = () => { drawAppliance(); drawEffects(); };
+  const redraw = () => {
+    drawAppliance();
+    drawEffects();
+    d3.selectAll('[data-tooltip]').each(function () {
+      d3.select(this).append('title').text(this.getAttribute('data-tooltip'));
+    });
+  };
   new ResizeObserver(redraw).observe(document.getElementById('lights-state-comparison'));
   redraw();
 })();
 </script>
+</body>
+</html>

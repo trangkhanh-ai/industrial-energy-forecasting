@@ -1,0 +1,2 @@
+# Keep the vendored raw file's SHA-256 stable on Windows and Unix checkouts.
+data/raw/energydata_complete.csv text eol=crlf

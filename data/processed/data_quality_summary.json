@@ -1,5 +1,6 @@
 {
-  "source_file": "data\\raw\\energydata_complete.csv",
+  "source_file": "data/raw/energydata_complete.csv",
+  "source_sha256": "2820bf712ad0275cb18b85a05250926100d8e65ebb9f4d2d016ca91ea152a25d",
   "raw_rows": 19735,
   "raw_columns": 29,
   "frequency_minutes": 10,
@@ -15,25 +16,27 @@
   ],
   "dropped_rows_without_future_label": 6,
   "target_column": "target_Appliances_t_plus_60m",
+  "purged_boundary_rows": 12,
+  "split_policy": "70/10/20 chronological; purge labels at or beyond the next observation boundary",
   "split_rows": {
-    "train": 13810,
-    "validation": 1973,
+    "train": 13804,
+    "validation": 1967,
     "test": 3946
   },
   "split_boundaries": [
     {
       "split": "train",
-      "rows": 13810,
+      "rows": 13804,
       "start_observation": "2016-01-11 17:00:00",
-      "end_observation": "2016-04-16 14:30:00",
-      "ratio": 0.6999847939581327
+      "end_observation": "2016-04-16 13:30:00",
+      "ratio": 0.6996806731207866
     },
     {
       "split": "validation",
-      "rows": 1973,
+      "rows": 1967,
       "start_observation": "2016-04-16 14:40:00",
-      "end_observation": "2016-04-30 07:20:00",
-      "ratio": 0.10000506868062244
+      "end_observation": "2016-04-30 06:20:00",
+      "ratio": 0.09970094784327639
     },
     {
       "split": "test",
